@@ -6,13 +6,27 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:32:59 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/01 18:49:51 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/01 20:10:47 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mlx/mlx.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>  // for open()
+#include <unistd.h> // for read(), close()
+
+typedef struct s_textures {
+    char *north;
+    char *south;
+    char *west;
+    char *east;
+} t_textures;
+
+typedef struct s_colors {
+    int floor_r, floor_g, floor_b;
+    int ceiling_r, ceiling_g, ceiling_b;
+} t_colors;
 
 typedef struct s_player {
     double x;
@@ -24,6 +38,9 @@ typedef struct s_game {
     void *mlx;
     void *win;
     t_player player;
+    t_textures textures;  
+    t_colors colors;      
+    char **map;           
 } t_game;
 
 int close_window(t_game *game)
@@ -72,11 +89,81 @@ int key_hook(int keycode, t_game *game)
     return (0);
 }
 
-int main(void)
+int parse_texture_line(char *line, t_textures *textures)
+{
+	(void)textures; // We will use this later to store texture paths
+	if (line[0] == 'N' && line[1] == 'O')
+	{
+		printf("Found North texture: %s\n", line + 3);
+	}
+	else if (line[0] == 'S' && line[1] == 'O')
+	{
+		printf("Found South texture: %s\n", line + 3);
+	}
+	else if (line[0] == 'W' && line[1] == 'E')
+	{
+		printf("Found West texture: %s\n", line + 3);
+	}
+	else if (line[0] == 'E' && line[1] == 'A')
+	{
+		printf("Found East texture: %s\n", line + 3);
+	}
+	return (1);
+}
+
+int parse_cub_file(char *filename, t_game *game)
+{
+    int fd;
+    char buffer[1000];
+    int bytes_read;
+	int i = 0;
+	int line_start = 0;
+    
+    fd = open(filename, O_RDONLY);
+    if (fd == -1)
+    {
+        printf("Error: Cannot open file %s\n", filename);
+        return (0);
+    }
+    
+    bytes_read = read(fd, buffer, 999);
+    buffer[bytes_read] = '\0';
+    close(fd);
+    
+    printf("=== FILE CONTENT ===\n");
+    printf("%s", buffer);
+    printf("=== END FILE ===\n");
+	printf("\n=== PARSING ===\n");
+    while (i < bytes_read)
+    {
+        if (buffer[i] == '\n' || i == bytes_read - 1)
+        {
+            buffer[i] = '\0';  // end the line
+            parse_texture_line(&buffer[line_start], &game->textures);
+            line_start = i + 1;
+        }
+        i++;
+    }
+    
+    return (1);
+}
+
+
+int main(int argc, char **argv)
 {
     t_game game;
     
+	if (argc != 2)
+    {
+        printf("Usage: %s <map.cub>\n", argv[0]);
+        return (1);
+    }
+
+	if (!parse_cub_file(argv[1], &game))
+        return (1);
+	
     game.mlx = mlx_init();
+
     if (!game.mlx)
     {
         printf("Error: MLX init failed\n");
