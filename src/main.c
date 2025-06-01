@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:32:59 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/01 20:10:47 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/01 20:35:10 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ int key_hook(int keycode, t_game *game)
     return (0);
 }
 
-int parse_texture_line(char *line, t_textures *textures)
+int parse_texture_line(char *line, t_textures *textures, t_colors *colors)
 {
 	(void)textures; // We will use this later to store texture paths
+	(void)colors;   // We will use this later to store color values
 	if (line[0] == 'N' && line[1] == 'O')
 	{
 		printf("Found North texture: %s\n", line + 3);
@@ -108,6 +109,14 @@ int parse_texture_line(char *line, t_textures *textures)
 	{
 		printf("Found East texture: %s\n", line + 3);
 	}
+	else if (line[0] == 'F' && line[1] == ' ')
+    {
+        printf("Found Floor color: %s\n", line + 2);
+    }
+    else if (line[0] == 'C' && line[1] == ' ') 
+    {
+        printf("Found Ceiling color: %s\n", line + 2);
+    }
 	return (1);
 }
 
@@ -139,7 +148,7 @@ int parse_cub_file(char *filename, t_game *game)
         if (buffer[i] == '\n' || i == bytes_read - 1)
         {
             buffer[i] = '\0';  // end the line
-            parse_texture_line(&buffer[line_start], &game->textures);
+            parse_texture_line(&buffer[line_start], &game->textures, &game->colors);
             line_start = i + 1;
         }
         i++;
