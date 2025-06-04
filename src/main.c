@@ -6,16 +6,17 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:32:59 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/04 18:25:17 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/04 19:14:15 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../MLX42/include/MLX42/MLX42.h"
+#include "../libraries/libft/libft.h"
 #include <stdio.h>
-#include <stdlib.h> // for exit(), malloc(), free(), atoi()
+#include <stdlib.h> // for exit(), malloc(), free(), ft_atoi()
 #include <fcntl.h>  // for open()
 #include <unistd.h> // for read(), close()
-#include <string.h> // for strlen(), strcpy(), strtok()
+#include <string.h> // for ft_strlen(), strcpy(), strtok()
 
 typedef struct s_textures {
     char *north;
@@ -97,20 +98,20 @@ void parse_rgb_color(char *color_str, int *r, int *g, int *b)
     char *str_copy;
     
     // Make a copy since strtok modifies the string
-    str_copy = malloc(strlen(color_str) + 1);
+    str_copy = malloc(ft_strlen(color_str) + 1);
     strcpy(str_copy, color_str);
     
     // Parse R value
     token = strtok(str_copy, ",");
-    *r = atoi(token);
+    *r = ft_atoi(token);
     
     // Parse G value  
     token = strtok(NULL, ",");
-    *g = atoi(token);
+    *g = ft_atoi(token);
     
     // Parse B value
     token = strtok(NULL, ",");
-    *b = atoi(token);
+    *b = ft_atoi(token);
     
     free(str_copy);
 }
@@ -120,25 +121,25 @@ int parse_texture_line(char *line, t_textures *textures, t_colors *colors)
     if (line[0] == 'N' && line[1] == 'O')
     {
         printf("Found North texture: %s\n", line + 3);
-        textures->north = malloc(strlen(line + 3) + 1);
+        textures->north = malloc(ft_strlen(line + 3) + 1);
         strcpy(textures->north, line + 3);
     }
     else if (line[0] == 'S' && line[1] == 'O')
     {
         printf("Found South texture: %s\n", line + 3);
-        textures->south = malloc(strlen(line + 3) + 1);
+        textures->south = malloc(ft_strlen(line + 3) + 1);
         strcpy(textures->south, line + 3);
     }
     else if (line[0] == 'W' && line[1] == 'E')
     {
         printf("Found West texture: %s\n", line + 3);
-        textures->west = malloc(strlen(line + 3) + 1);
+        textures->west = malloc(ft_strlen(line + 3) + 1);
         strcpy(textures->west, line + 3);
     }
     else if (line[0] == 'E' && line[1] == 'A')
     {
         printf("Found East texture: %s\n", line + 3);
-        textures->east = malloc(strlen(line + 3) + 1);
+        textures->east = malloc(ft_strlen(line + 3) + 1);
         strcpy(textures->east, line + 3);
     }
     else if (line[0] == 'F' && line[1] == ' ')
