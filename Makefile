@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 # Updated MLX paths
 MLX_DIR = mlx
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+MLX_FLAGS = -LMLX42/build -lmlx42 -lglfw -lGL -lm
 MLX_INCLUDES = -I$(MLX_DIR)
 
 SRCDIR = src
