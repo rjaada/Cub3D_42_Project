@@ -12,7 +12,7 @@ LIBFT_DIR = libraries/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCDIR = src
-SRCS = $(SRCDIR)/main.c
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c $(SRCDIR)/colors.c $(SRCDIR)/init.c # Add other source files as needed
 
 OBJDIR = obj
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
