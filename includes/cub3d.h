@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/06 06:17:11 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/07 16:13:35 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,21 @@ typedef struct s_game
 }				t_game;
 
 // Function prototypes
-void	close_window(void *param);
-void	key_hook(mlx_key_data_t keydata, void *param);
-int		parse_texture_line(char *line, t_textures *textures, t_colors *colors);
-int		parse_cub_file(char *filename, t_game *game);
-void	parse_rgb_color(char *color_str, int *r, int *g, int *b);
-void	print_parsed_data(t_game *game);
+void			close_window(void *param);
+void			key_hook(mlx_key_data_t keydata, void *param);
+int				parse_texture_line(char *line, t_textures *textures,
+					t_colors *colors);
+int				parse_cub_file(char *filename, t_game *game);
+void			parse_rgb_color(char *color_str, int *r, int *g, int *b);
+void			print_parsed_data(t_game *game);
+int				count_map_lines(char *buffer, int start_pos, int total_size);
+char			*copy_map_line(char *buffer, int start, int end);
+int				parse_map_section(char *buffer, int map_start, int total_size,
+					t_game *game);
+int				find_player_position(t_game *game);
+int				validate_map_walls(t_game *game);
+int				check_file_extension(char *filename);
+int				parse_and_validate_cub_file(char *filename, t_game *game);
+void			cleanup_game(t_game *game);
 
 #endif // CUB3D_H

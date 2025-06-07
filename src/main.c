@@ -6,13 +6,13 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:32:59 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/06 06:16:07 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/07 16:15:10 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../MLX42/include/MLX42/MLX42.h"
-#include "../libraries/libft/libft.h"
 #include "../includes/cub3d.h"
+#include "../libraries/libft/libft.h"
 
 void	close_window(void *param)
 {
@@ -55,13 +55,13 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		game->player.x += 0.1; // move right
 	}
 	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		// Left arrow - FIXED!
+	// Left arrow - FIXED!
 	{
 		printf("Turn left - Angle: %.1f\n", game->player.angle);
 		game->player.angle -= 0.1; // rotate left
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		// Right arrow - FIXED!
+	// Right arrow - FIXED!
 	{
 		printf("Turn right - Angle: %.1f\n", game->player.angle);
 		game->player.angle += 0.1; // rotate right
@@ -98,8 +98,11 @@ int	main(int argc, char **argv)
 		printf("Usage: %s <map.cub>\n", argv[0]);
 		return (1);
 	}
-	if (!parse_cub_file(argv[1], &game))
+	if (!parse_and_validate_cub_file(argv[1], &game))
+	{
+		cleanup_game(&game);
 		return (1);
+	}
 	print_parsed_data(&game);
 	// MLX42 initialization - no separate window creation needed!
 	game.mlx = mlx_init(800, 600, "cub3D - Movement Test!", true);
@@ -119,5 +122,6 @@ int	main(int argc, char **argv)
 	printf("Starting position: (%.1f, %.1f) angle: %.1f\n", game.player.x,
 		game.player.y, game.player.angle);
 	mlx_loop(game.mlx);
+	cleanup_game(&game);
 	return (0);
 }
