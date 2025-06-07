@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:54 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/07 16:23:00 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/07 18:51:34 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ void parse_rgb_color(char *color_str, int *r, int *g, int *b)
     char *str_copy;
     
     // make a copy since strtok modifies the string
-    str_copy = malloc(strlen(color_str) + 1);
+    str_copy = malloc(ft_strlen(color_str) + 1);
     strcpy(str_copy, color_str);
     
     // parse R value
     token = strtok(str_copy, ",");
-    *r = atoi(token);
+    *r = ft_atoi(token);
     
     // parse G value  
     token = strtok(NULL, ",");
-    *g = atoi(token);
+    *g = ft_atoi(token);
     
     // parse B value
     token = strtok(NULL, ",");
-    *b = atoi(token);
+    *b = ft_atoi(token);
     
     free(str_copy);
 }
@@ -336,7 +336,7 @@ int	validate_left_right_walls(t_game *game, int map_height)
 				row);
 			return (0);
 		}
-		line_len = strlen(game->map[row]);
+		line_len = ft_strlen(game->map[row]);
 		if (line_len > 0 && game->map[row][line_len - 1] != '1')
 		{
 			printf("Error\nMap not closed - right wall missing at row %d\n",
@@ -390,7 +390,7 @@ int	validate_map_walls(t_game *game)
 	while (game->map[map_height])
 		map_height++;
 	if (map_height > 0)
-		map_width = strlen(game->map[0]);
+		map_width = ft_strlen(game->map[0]);
 	printf("Map size: %d x %d\n", map_width, map_height);
 	// validate all walls and characters
 	if (!validate_top_bottom_walls(game, map_height, map_width))
@@ -409,7 +409,7 @@ int	check_file_extension(char *filename)
 {
 	int	len;
 
-	len = strlen(filename);
+	len = ft_strlen(filename);
 	// file must end with .cub
 	if (len < 4 || strcmp(filename + len - 4, ".cub") != 0)
 	{
@@ -438,7 +438,7 @@ int	parse_and_validate_cub_file(char *filename, t_game *game)
 	return (1);
 }
 
-// memory cleanup function - add to parsing.c
+// memory cleanup function
 void	cleanup_game(t_game *game)
 {
 	int	i;
