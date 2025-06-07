@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:32:59 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/07 16:15:10 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/07 18:50:49 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		game->player.angle += 0.1; // rotate right
 	}
 	// REMOVED return (0) - MLX42 key_hook returns void!
+	draw_minimap(game);
+
 }
 
 void	print_parsed_data(t_game *game)
@@ -117,6 +119,7 @@ int	main(int argc, char **argv)
 	game.player.angle = 0.0;
 	// Set up event handling - MLX42 style!
 	mlx_close_hook(game.mlx, close_window, &game); // Window close hook
+	draw_minimap(&game);
 	mlx_key_hook(game.mlx, key_hook, &game);       // Key hook
 	printf("SUCCESS! Use WASD to move, arrows to turn, ESC to quit.\n");
 	printf("Starting position: (%.1f, %.1f) angle: %.1f\n", game.player.x,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/07 16:23:20 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/07 19:03:35 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_player
 typedef struct s_game
 {
 	mlx_t *mlx; // Changed to mlx_t* for MLX42
+	mlx_image_t *minimap_img; // Added minimap image
 	t_player	player;
 	t_textures	textures;
 	t_colors	colors;
@@ -68,5 +69,9 @@ int				validate_map_walls(t_game *game);
 int				check_file_extension(char *filename);
 int				parse_and_validate_cub_file(char *filename, t_game *game);
 void			cleanup_game(t_game *game);
+
+
+void			draw_minimap(t_game *game);
+
 
 #endif // CUB3D_H

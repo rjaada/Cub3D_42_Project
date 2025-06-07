@@ -12,7 +12,7 @@ BOLD = \033[1m
 # Project
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # MLX42
 MLX_DIR = MLX42
@@ -25,7 +25,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Sources
 SRCDIR = src
-SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c $(SRCDIR)/2Dmap.c
 OBJDIR = obj
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
