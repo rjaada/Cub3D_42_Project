@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 20:30:55 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:06:27 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	close_window(void *param)
 	exit(0);
 }
 
+// MAKE A HOOKS FILE WITH ALL THE HOOKS AND FUNCTIONS FOR MOVEMENT, ETC.
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
@@ -41,6 +42,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		rotate_player(game, ROT_SPEED * 180.0 / M_PI);
 }
 
+// PLEASE FIX TERNARIES
 void	print_parsed_data(t_game *game)
 {
 	printf("\n=== STORED DATA VERIFICATION ===\n");
@@ -59,6 +61,7 @@ void	print_parsed_data(t_game *game)
 	printf("=== END VERIFICATION ===\n\n");
 }
 
+// LESS LINES; USE ft_memset and make an init function
 int	main(int argc, char **argv)
 {
 	t_game	game;
