@@ -18,18 +18,22 @@ void	draw_minimap(t_game *game)
     map_width = strlen(game->map[0]);
 
     // Create minimap image only once
-    if (!game->minimap_img)
+    if (!game->img)
     {
-        game->minimap_img = mlx_new_image(game->mlx,
+        game->img = mlx_new_image(game->mlx,
             map_width * TILE_SIZE + 2 * MAP_OFFSET_X,
             map_height * TILE_SIZE + 2 * MAP_OFFSET_Y);
-        mlx_image_to_window(game->mlx, game->minimap_img, 0, 0);
+        mlx_image_to_window(game->mlx, game->img, 0, 0);
     }
 
     // Clear the image (set all pixels to background color)
-    for (uint32_t y_img = 0; y_img < game->minimap_img->height; y_img++)
-        for (uint32_t x_img = 0; x_img < game->minimap_img->width; x_img++)
-            mlx_put_pixel(game->minimap_img, x_img, y_img, 0xFF222222);
+    for (uint32_t y_img = 0; y_img < game->img->height / 2; y_img++)
+        for (uint32_t x_img = 0; x_img < game->img->width; x_img++)
+            mlx_put_pixel(game->img, x_img, y_img, 0xFFFFFFFF); // White background
+    
+    for (uint32_t y_img = game->img->height / 2; y_img < game->img->height; y_img++)
+        for (uint32_t x_img = 0; x_img < game->img->width; x_img++)
+            mlx_put_pixel(game->img, x_img, y_img, 0xFF000000); // Black floor
 
     // Draw map cells (loop over map, not image!)
     for (y = 0; y < map_height; y++)
@@ -47,9 +51,9 @@ void	draw_minimap(t_game *game)
                 {
                     int draw_x = MAP_OFFSET_X + x * TILE_SIZE + i;
                     int draw_y = MAP_OFFSET_Y + y * TILE_SIZE + j;
-                    if (draw_x >= 0 && draw_x < (int)game->minimap_img->width &&
-                        draw_y >= 0 && draw_y < (int)game->minimap_img->height)
-                        mlx_put_pixel(game->minimap_img, draw_x, draw_y, color);
+                    if (draw_x >= 0 && draw_x < (int)game->img->width &&
+                        draw_y >= 0 && draw_y < (int)game->img->height)
+                        mlx_put_pixel(game->img, draw_x, draw_y, color);
                 }
             }
         }
@@ -64,9 +68,9 @@ void	draw_minimap(t_game *game)
         {
             int draw_x = px + i;
             int draw_y = py + j;
-            if (draw_x >= 0 && draw_x < (int)game->minimap_img->width &&
-                draw_y >= 0 && draw_y < (int)game->minimap_img->height)
-                mlx_put_pixel(game->minimap_img, draw_x, draw_y, 0xFFFF0000);
+            if (draw_x >= 0 && draw_x < (int)game->img->width &&
+                draw_y >= 0 && draw_y < (int)game->img->height)
+                mlx_put_pixel(game->img, draw_x, draw_y, 0xFFFF0000);
         }
     }
 }

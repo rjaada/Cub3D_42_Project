@@ -3,40 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:54 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/07 18:51:34 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:46:16 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../MLX42/include/MLX42/MLX42.h"
 #include "../includes/cub3d.h"
 #include "../libraries/libft/libft.h"
-
-void parse_rgb_color(char *color_str, int *r, int *g, int *b)
-{
-    char *token;
-    char *str_copy;
-    
-    // make a copy since strtok modifies the string
-    str_copy = malloc(ft_strlen(color_str) + 1);
-    strcpy(str_copy, color_str);
-    
-    // parse R value
-    token = strtok(str_copy, ",");
-    *r = ft_atoi(token);
-    
-    // parse G value  
-    token = strtok(NULL, ",");
-    *g = ft_atoi(token);
-    
-    // parse B value
-    token = strtok(NULL, ",");
-    *b = ft_atoi(token);
-    
-    free(str_copy);
-}
 
 int	parse_texture_line(char *line, t_textures *textures, t_colors *colors)
 {

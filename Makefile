@@ -25,7 +25,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Sources
 SRCDIR = src
-SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c $(SRCDIR)/2Dmap.c
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/parsing.c $(SRCDIR)/2Dmap.c $(SRCDIR)/movements.c \
+		$(SRCDIR)/colors.c $(SRCDIR)/init.c $(SRCDIR)/raycasting.c
 OBJDIR = obj
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 

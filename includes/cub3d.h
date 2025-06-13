@@ -6,12 +6,18 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/07 19:03:35 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:28:24 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# define M_PI 3.14159265358979323846
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
+#define MOVE_SPEED 0.1
+#define ROT_SPEED 0.05
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libraries/libft/libft.h"
@@ -45,7 +51,8 @@ typedef struct s_player
 typedef struct s_game
 {
 	mlx_t *mlx; // Changed to mlx_t* for MLX42
-	mlx_image_t *minimap_img; // Added minimap image
+	mlx_image_t *img; // Main image for rendering
+	int         map_height;
 	t_player	player;
 	t_textures	textures;
 	t_colors	colors;
@@ -70,8 +77,23 @@ int				check_file_extension(char *filename);
 int				parse_and_validate_cub_file(char *filename, t_game *game);
 void			cleanup_game(t_game *game);
 
-
+// 2Dmap.c
 void			draw_minimap(t_game *game);
 
+// movements.c
+void			rotate_player(t_game *game, double angle);
+void			move_forward_backward(t_game *game, int dir);
+void			move_left_right(t_game *game, int dir);
+void			update_player(t_game *game, int key_w, int key_s,
+					int key_a, int key_d, int key_left, int key_right);
+
+// raycasting.c
+void			raycast_and_render(t_game *game, mlx_image_t *img);
+void			draw_vertical_line(mlx_image_t *img, int x, int start,
+					int end, uint32_t color);
+void			game_loop(void *param);
+
+// init.c
+int				init_game(t_game *game);
 
 #endif // CUB3D_H
