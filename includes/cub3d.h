@@ -6,22 +6,28 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 20:04:00 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:34:45 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define M_PI 3.14159265358979323846
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 # define MOVE_SPEED 0.1
 # define ROT_SPEED 0.05
+# define TILE_SIZE 32
+# define MAP_OFFSET_X 20
+# define MAP_OFFSET_Y 20
+# define FOV 60.0
+# define NUM_RAYS WIN_WIDTH
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libraries/libft/libft.h"
 # include <fcntl.h> // for open()
+# include <math.h>  // for M_PI, cos(), sin(), sqrt()
+# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h> // for exit(), malloc(), free(), ft_atoi()
 # include <string.h> // for ft_strlen(), strcpy(), strtok()

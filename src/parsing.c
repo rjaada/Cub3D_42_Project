@@ -6,13 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:54 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 19:57:47 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:31:25 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../MLX42/include/MLX42/MLX42.h"
 #include "../includes/cub3d.h"
-#include "../libraries/libft/libft.h"
 
 int	parse_texture_line(char *line, t_textures *textures, t_colors *colors)
 {

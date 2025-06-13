@@ -6,12 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:16:49 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 20:16:50 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:27:56 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include <math.h>
 
 static int	is_walkable(char **map, int x, int y)
 {

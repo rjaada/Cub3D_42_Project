@@ -6,11 +6,9 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:51 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 19:57:51 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:31:10 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Initialize everything here
 
 #include "../includes/cub3d.h"
 

@@ -6,13 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:49 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 20:13:52 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:31:03 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../MLX42/include/MLX42/MLX42.h"
 #include "../includes/cub3d.h"
-#include "../libraries/libft/libft.h"
 
 void	parse_rgb_color(char *color_str, int *r, int *g, int *b)
 {

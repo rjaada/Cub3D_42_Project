@@ -6,16 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 19:50:36 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:30:55 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../MLX42/include/MLX42/MLX42.h"
 #include "../includes/cub3d.h"
-#include "../libraries/libft/libft.h"
-
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 600
 
 void	close_window(void *param)
 {

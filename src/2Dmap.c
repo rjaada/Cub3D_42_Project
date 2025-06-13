@@ -6,17 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 20:09:17 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:30:33 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../MLX42/include/MLX42/MLX42.h"
 #include "../includes/cub3d.h"
-#include "../libraries/libft/libft.h"
-#include <stdint.h>
-#define TILE_SIZE 32
-#define MAP_OFFSET_X 20
-#define MAP_OFFSET_Y 20
 
 void	draw_minimap(t_game *game)
 {
@@ -25,6 +19,8 @@ void	draw_minimap(t_game *game)
 	int			draw_y;
 	int			px;
 	int			py;
+	uint32_t	y_img;
+	uint32_t	x_img;
 
 	int x, y, i, j;
 	int map_width, map_height;
@@ -40,14 +36,30 @@ void	draw_minimap(t_game *game)
 		mlx_image_to_window(game->mlx, game->img, 0, 0);
 	}
 	// Clear the image (set all pixels to background color)
-	for (uint32_t y_img = 0; y_img < game->img->height / 2; y_img++)
-		for (uint32_t x_img = 0; x_img < game->img->width; x_img++)
-			mlx_put_pixel(game->img, x_img, y_img, get_ceiling_color(&game->colors)); // Ceiling color
-				// White background
-	for (uint32_t y_img = game->img->height
-		/ 2; y_img < game->img->height; y_img++)
-		for (uint32_t x_img = 0; x_img < game->img->width; x_img++)
-			mlx_put_pixel(game->img, x_img, y_img, get_floor_color(&game->colors)); // Black floor
+	y_img = 0;
+	while (y_img < game->img->height / 2)
+	{
+		x_img = 0;
+		while (x_img < game->img->width)
+		{
+			mlx_put_pixel(game->img, x_img, y_img,
+				get_ceiling_color(&game->colors)); // Ceiling color
+			x_img++;
+		}
+		y_img++;
+	}
+	y_img = game->img->height / 2;
+	while (y_img < game->img->height)
+	{
+		x_img = 0;
+		while (x_img < game->img->width)
+		{
+			mlx_put_pixel(game->img, x_img, y_img,
+				get_floor_color(&game->colors)); // Black floor
+			x_img++;
+		}
+		y_img++;
+	}
 	// Draw map cells (loop over map, not image!)
 	for (y = 0; y < map_height; y++)
 	{
