@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 05:49:54 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 16:46:16 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:57:47 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int	find_player_position(t_game *game)
 	return (1);
 }
 
+// I DON'T THINK WE'RE EVER USING THIS ANYWHERE ?
 // validate map walls - top and bottom rows
 int	validate_top_bottom_walls(t_game *game, int map_height, int map_width)
 {
@@ -412,34 +413,4 @@ int	parse_and_validate_cub_file(char *filename, t_game *game)
 		return (0);
 	printf("\n🔥 CUB3D PARSING COMPLETE - ALL CHECKS PASSED! 🔥\n");
 	return (1);
-}
-
-// memory cleanup function
-void	cleanup_game(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	// free texture paths
-	if (game->textures.north)
-		free(game->textures.north);
-	if (game->textures.south)
-		free(game->textures.south);
-	if (game->textures.west)
-		free(game->textures.west);
-	if (game->textures.east)
-		free(game->textures.east);
-	// free map array
-	if (game->map)
-	{
-		while (game->map[i])
-		{
-			free(game->map[i]);
-			i++;
-		}
-		free(game->map);
-	}
-	// close mlx if needed
-	if (game->mlx)
-		mlx_terminate(game->mlx);
 }
