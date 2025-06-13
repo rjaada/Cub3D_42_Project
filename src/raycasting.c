@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:22 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 20:12:09 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:22:21 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,47 +46,55 @@ void	raycast_and_render(t_game *game, mlx_image_t *img)
 
 	double ray_x, ray_y;
 	screen_height = img->height;
-	for (int ray = 0; ray < NUM_RAYS; ray++)
-	{
-		ray_angle = (game->player.angle - (FOV / 2.0)) + ((double)ray
-				/ NUM_RAYS) * FOV;
-		ray_rad = ray_angle * M_PI / 180.0;
-		ray_dir_x = cos(ray_rad);
-		ray_dir_y = sin(ray_rad);
-		ray_x = game->player.x;
-		ray_y = game->player.y;
-		while (1)
-		{
-			test_x = (int)ray_x;
-			test_y = (int)ray_y;
-			if (test_x < 0 || test_x >= (int)strlen(game->map[0]) || test_y < 0
-				|| test_y >= (int)game->map_height)
-				break ;
-			if (game->map[test_y][test_x] == '1')
-				break ;
-			ray_x += ray_dir_x * 0.01;
-			ray_y += ray_dir_y * 0.01;
-		}
-		distance = sqrt((ray_x - game->player.x) * (ray_x - game->player.x)
-				+ (ray_y - game->player.y) * (ray_y - game->player.y));
-		wall_height = (int)(screen_height / (distance + 0.0001));
-		wall_start = (screen_height / 2) - (wall_height / 2);
-		wall_end = wall_start + wall_height;
-		draw_vertical_line(img, ray, wall_start, wall_end, 0xFF888888);
-		// Gray wall
+    int ray = 0;
+    while (ray < NUM_RAYS)
+    {
+        ray_angle = (game->player.angle - (FOV / 2.0)) + ((double)ray
+                / NUM_RAYS) * FOV;
+        ray_rad = ray_angle * M_PI / 180.0;
+        ray_dir_x = cos(ray_rad);
+        ray_dir_y = sin(ray_rad);
+        ray_x = game->player.x;
+        ray_y = game->player.y;
+        while (1)
+        {
+            test_x = (int)ray_x;
+            test_y = (int)ray_y;
+            if (test_x < 0 || test_x >= (int)strlen(game->map[0]) || test_y < 0
+                || test_y >= (int)game->map_height)
+                break ;
+            if (game->map[test_y][test_x] == '1')
+                break ;
+            ray_x += ray_dir_x * 0.01;
+            ray_y += ray_dir_y * 0.01;
+        }
+        distance = sqrt((ray_x - game->player.x) * (ray_x - game->player.x)
+                + (ray_y - game->player.y) * (ray_y - game->player.y));
+        distance *= cos(ray_rad - game->player.angle * M_PI / 180.0);
+        wall_height = (int)(screen_height / (distance + 0.0001));
+        wall_start = (screen_height / 2) - (wall_height / 2);
+        wall_end = wall_start + wall_height;
+        draw_vertical_line(img, ray, wall_start, wall_end, 0xFF888888);
+        // Gray wall
+        ray++;
 	}
 }
 
 void	clear_image(mlx_image_t *img, int ceiling_color, int floor_color)
 {
-	uint32_t	color;
-
-	for (int y = 0; y < (int)img->height; y++)
-	{
-		color = (y < (int)img->height / 2) ? ceiling_color : floor_color;
-		for (int x = 0; x < (int)img->width; x++)
-			mlx_put_pixel(img, x, y, color);
-	}
+    uint32_t	color;
+    int y = 0;
+    while (y < (int)img->height)
+    {
+        color = (y < (int)img->height / 2) ? ceiling_color : floor_color;
+        int x = 0;
+        while (x < (int)img->width)
+        {
+            mlx_put_pixel(img, x, y, color);
+            x++;
+        }
+        y++;
+    }
 }
 
 void	game_loop(void *param)
