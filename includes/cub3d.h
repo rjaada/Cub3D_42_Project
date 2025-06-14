@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/13 20:42:58 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:33:06 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define NUM_RAYS WIN_WIDTH
 
 # include "../MLX42/include/MLX42/MLX42.h"
-# include "../libraries/libft/libft.h"
+# include "../libft/libft.h"
 # include <fcntl.h> // for open()
 # include <math.h>  // for M_PI, cos(), sin(), sqrt()
 # include <stdint.h>

@@ -12,16 +12,11 @@ BOLD = \033[1m
 # Project
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
-# MLX42
-MLX_DIR = MLX42
-MLX_FLAGS = -LMLX42/build -lmlx42 -lglfw -lGL -lm
-MLX_INCLUDES = -I$(MLX_DIR)/include
-
-# Libft
-LIBFT_DIR = libraries/libft
-LIBFT = $(LIBFT_DIR)/libft.a
+# Libraries
+MLX = MLX42/lib/libmlx42.a
+LIBFT = libft/libft.a
 
 # Sources
 SRCDIR = src
@@ -44,9 +39,9 @@ header:
 	@echo "╚═══════════════════════════════════════════════════════════════╝"
 	@echo "$(RESET)"
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(MLX) $(LIBFT) $(OBJS)
 	@echo "$(GREEN)$(BOLD)🔗 Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJS) $(MLX_FLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(OBJS) $(MLX) -lglfw -lm -o $(NAME) $(LIBFT)
 	@echo "$(GREEN)$(BOLD)✅ $(NAME) built successfully!$(RESET)"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -56,22 +51,22 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@printf "$(BLUE)▓"
 	@for i in $$(seq 1 $$(echo "scale=0; $(CURRENT_FILE) * 50 / $(TOTAL_FILES)" | bc 2>/dev/null || echo "25")); do printf "▓"; done
 	@printf "$(RESET)\n"
-	@$(CC) $(CFLAGS) $(MLX_INCLUDES) -Ilibraries/libft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Ilibraries/libft -Iincludes -c $< -o $@
 
 $(LIBFT):
 	@echo "$(MAGENTA)🔨 Building libft...$(RESET)"
-	@make -C $(LIBFT_DIR) --quiet
+	@make -C libft --quiet
 
 clean:
 	@echo "$(RED)🧹 Cleaning object files...$(RESET)"
 	@rm -rf $(OBJDIR)
-	@make clean -C $(LIBFT_DIR) --quiet
+	@make -C libft clean --quiet
 	@echo "$(RED)✅ Clean complete!$(RESET)"
 
 fclean: clean
 	@echo "$(RED)🔥 Full clean...$(RESET)"
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR) --quiet
+	@make fclean -C libft --quiet
 	@echo "$(RED)✅ Full clean complete!$(RESET)"
 
 re: fclean all
