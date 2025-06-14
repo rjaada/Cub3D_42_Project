@@ -6,14 +6,13 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:22 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 20:56:13 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:41:11 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	draw_vertical_line(mlx_image_t *img, int x, int start, int end,
-		uint32_t color)
+void	draw_vertical_line(mlx_image_t *img, int x, int start, int end)
 {
 	int	y;
 
@@ -21,58 +20,54 @@ void	draw_vertical_line(mlx_image_t *img, int x, int start, int end,
 	while (y < end)
 	{
 		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
-			mlx_put_pixel(img, x, y, color);
+			mlx_put_pixel(img, x, y, 0xFF888888);
 		y++;
 	}
 }
 
+static t_ray	init_ray_vars(t_game *game, int ray)
+{
+	t_ray	vars;
+
+	vars.ray_angle = (game->player.angle - (FOV / 2.0)) + ((double)ray
+			/ NUM_RAYS) * FOV;
+	vars.ray_cos = cos(vars.ray_angle * M_PI / 180.0);
+	vars.ray_sin = sin(vars.ray_angle * M_PI / 180.0);
+	vars.x = game->player.x;
+	vars.y = game->player.y;
+	return (vars);
+}
+
 void	raycast_and_render(t_game *game, mlx_image_t *img)
 {
-	double	ray_angle;
 	double	distance;
-	int		wall_height;
-	int		screen_height;
-	double	ray_rad;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	int		test_x;
-	int		test_y;
 	int		wall_start;
 	int		wall_end;
 	int		ray;
+	t_ray	vars;
 
-	double ray_x, ray_y;
-	screen_height = img->height;
 	ray = 0;
 	while (ray < NUM_RAYS)
 	{
-		ray_angle = (game->player.angle - (FOV / 2.0)) + ((double)ray
-				/ NUM_RAYS) * FOV;
-		ray_rad = ray_angle * M_PI / 180.0;
-		ray_dir_x = cos(ray_rad);
-		ray_dir_y = sin(ray_rad);
-		ray_x = game->player.x;
-		ray_y = game->player.y;
+		vars = init_ray_vars(game, ray);
 		while (1)
 		{
-			test_x = (int)ray_x;
-			test_y = (int)ray_y;
-			if (test_x < 0 || test_x >= (int)strlen(game->map[0]) || test_y < 0
-				|| test_y >= (int)game->map_height)
+			if (vars.x < 0 || vars.x >= strlen(game->map[0]) || vars.y < 0
+				|| vars.y >= game->map_height)
 				break ;
-			if (game->map[test_y][test_x] == '1')
+			if (game->map[(int)vars.y][(int)vars.x] == '1')
 				break ;
-			ray_x += ray_dir_x * 0.01;
-			ray_y += ray_dir_y * 0.01;
+			vars.x += vars.ray_cos * 0.01;
+			vars.y += vars.ray_sin * 0.01;
 		}
-		distance = sqrt((ray_x - game->player.x) * (ray_x - game->player.x)
-				+ (ray_y - game->player.y) * (ray_y - game->player.y));
-		distance *= cos(ray_rad - game->player.angle * M_PI / 180.0);
-		wall_height = (int)(screen_height / (distance + 0.0001));
-		wall_start = (screen_height / 2) - (wall_height / 2);
-		wall_end = wall_start + wall_height;
-		draw_vertical_line(img, ray, wall_start, wall_end, 0xFF888888);
-		// Gray wall
+		distance = sqrt((vars.x - game->player.x) * (vars.x - game->player.x)
+				+ (vars.y - game->player.y) * (vars.y - game->player.y));
+		distance *= cos(vars.ray_angle * M_PI / 180.0 - game->player.angle
+				* M_PI / 180.0);
+		wall_start = (img->height / 2) - ((int)(img->height / (distance
+						+ 0.0001)) / 2);
+		wall_end = wall_start + (int)(img->height / (distance + 0.0001));
+		draw_vertical_line(img, ray, wall_start, wall_end);
 		ray++;
 	}
 }
@@ -86,7 +81,10 @@ void	clear_image(mlx_image_t *img, int ceiling_color, int floor_color)
 	y = 0;
 	while (y < (int)img->height)
 	{
-		color = (y < (int)img->height / 2) ? ceiling_color : floor_color;
+		if (y < (int)img->height / 2)
+			color = ceiling_color;
+		else
+			color = floor_color;
 		x = 0;
 		while (x < (int)img->width)
 		{

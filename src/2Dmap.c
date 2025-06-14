@@ -6,37 +6,17 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 21:07:11 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:01:53 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	draw_minimap(t_game *game)
+static void	clear_minimap_bg(t_game *game)
 {
-	uint32_t	color;
-	int			draw_x;
-	int			draw_y;
-	int			px;
-	int			py;
 	uint32_t	y_img;
 	uint32_t	x_img;
 
-	int x, y, i, j;
-	int map_width, map_height;
-	map_height = 0;
-	while (game->map[map_height])
-		map_height++;
-	map_width = strlen(game->map[0]);
-	// Create minimap image only once
-	if (!game->img)
-	{
-		game->img = mlx_new_image(game->mlx, map_width * TILE_SIZE + 2
-				* MAP_OFFSET_X / 2, map_height * TILE_SIZE + 2 * MAP_OFFSET_Y
-				/ 2);
-		mlx_image_to_window(game->mlx, game->img, 0, 0);
-	}
-	// Clear the image (set all pixels to background color)
 	y_img = 0;
 	while (y_img < game->img->height / 2)
 	{
@@ -44,7 +24,7 @@ void	draw_minimap(t_game *game)
 		while (x_img < game->img->width)
 		{
 			mlx_put_pixel(game->img, x_img, y_img,
-							get_ceiling_color(&game->colors)); // Ceiling color
+				get_ceiling_color(&game->colors));
 			x_img++;
 		}
 		y_img++;
@@ -56,12 +36,44 @@ void	draw_minimap(t_game *game)
 		while (x_img < game->img->width)
 		{
 			mlx_put_pixel(game->img, x_img, y_img,
-							get_floor_color(&game->colors)); // Black floor
+				get_floor_color(&game->colors));
 			x_img++;
 		}
 		y_img++;
 	}
-	// Draw map cells (loop over map, not image!)
+}
+
+static void	draw_minimap_cell(t_game *game, int map_x, int map_y,
+		uint32_t color)
+{
+	int	i;
+	int	j;
+	int	draw_x;
+	int	draw_y;
+
+	i = 0;
+	while (i < TILE_SIZE / 2)
+	{
+		j = 0;
+		while (j < TILE_SIZE / 2)
+		{
+			draw_x = MAP_OFFSET_X + map_x * TILE_SIZE / 2 + i;
+			draw_y = MAP_OFFSET_Y + map_y * TILE_SIZE / 2 + j;
+			if (draw_x >= 0 && draw_x < (int)game->img->width && draw_y >= 0
+				&& draw_y < (int)game->img->height)
+				mlx_put_pixel(game->img, draw_x, draw_y, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	draw_minimap_map(t_game *game, int map_width, int map_height)
+{
+	uint32_t	color;
+	int			x;
+	int			y;
+
 	y = 0;
 	while (y < map_height)
 	{
@@ -69,29 +81,23 @@ void	draw_minimap(t_game *game)
 		while (x < map_width)
 		{
 			if (game->map[y][x] == '1')
-				color = 0xFF444444; // Wall
+				color = 0xFF444444;
 			else
-				color = 0xFFCCCCCC; // Floor
-			i = 0;
-			while (i < TILE_SIZE / 2)
-			{
-				j = 0;
-				while (j < TILE_SIZE / 2)
-				{
-					draw_x = MAP_OFFSET_X + x * TILE_SIZE / 2 + i;
-					draw_y = MAP_OFFSET_Y + y * TILE_SIZE / 2 + j;
-					if (draw_x >= 0 && draw_x < (int)game->img->width
-						&& draw_y >= 0 && draw_y < (int)game->img->height)
-						mlx_put_pixel(game->img, draw_x, draw_y, color);
-					j++;
-				}
-				i++;
-			}
+				color = 0xFFCCCCCC;
+			draw_minimap_cell(game, x, y, color);
 			x++;
 		}
 		y++;
 	}
-	// Draw player as a red square
+}
+
+static void	draw_minimap_player(t_game *game)
+{
+	int	i;
+	int	j;
+	int	px;
+	int	py;
+
 	px = MAP_OFFSET_X + (int)(game->player.x * TILE_SIZE / 2) - TILE_SIZE / 4;
 	py = MAP_OFFSET_Y + (int)(game->player.y * TILE_SIZE / 2) - TILE_SIZE / 4;
 	i = 0;
@@ -100,13 +106,32 @@ void	draw_minimap(t_game *game)
 		j = 0;
 		while (j < TILE_SIZE / 3)
 		{
-			draw_x = px + i;
-			draw_y = py + j;
-			if (draw_x >= 0 && draw_x < (int)game->img->width && draw_y >= 0
-				&& draw_y < (int)game->img->height)
-				mlx_put_pixel(game->img, draw_x, draw_y, 0xFFFF0000);
+			if (px + i >= 0 && px + i < (int)game->img->width && py + j >= 0
+				&& py + j < (int)game->img->height)
+				mlx_put_pixel(game->img, px + i, py + j, 0xFFFF0000);
 			j++;
 		}
 		i++;
 	}
+}
+
+void	draw_minimap(t_game *game)
+{
+	int	map_width;
+	int	map_height;
+
+	map_height = 0;
+	while (game->map[map_height])
+		map_height++;
+	map_width = strlen(game->map[0]);
+	if (!game->img)
+	{
+		game->img = mlx_new_image(game->mlx, map_width * TILE_SIZE + 2
+				* MAP_OFFSET_X / 2, map_height * TILE_SIZE + 2 * MAP_OFFSET_Y
+				/ 2);
+		mlx_image_to_window(game->mlx, game->img, 0, 0);
+	}
+	clear_minimap_bg(game);
+	draw_minimap_map(game, map_width, map_height);
+	draw_minimap_player(game);
 }

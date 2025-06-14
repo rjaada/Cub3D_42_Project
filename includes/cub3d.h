@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/14 13:33:06 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:42:52 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ typedef struct s_textures
 	char		*east;
 }				t_textures;
 
+// Floor and ceiling colors
 typedef struct s_colors
 {
-	int			floor_r;
-	int			floor_g;
-	int			floor_b;
-	int			ceiling_r;
-	int			ceiling_g;
-	int			ceiling_b;
+	int			f_r;
+	int			f_g;
+	int			f_b;
+	int			c_r;
+	int			c_g;
+	int			c_b;
 }				t_colors;
 
 typedef struct s_player
@@ -68,6 +69,15 @@ typedef struct s_game
 	t_colors	colors;
 	char		**map;
 }				t_game;
+
+typedef struct s_ray
+{
+	double	ray_angle;
+	double	ray_cos;
+	double	ray_sin;
+	double	x;
+	double	y;
+}	t_ray;
 
 // main.c
 void			close_window(void *param);
@@ -106,8 +116,7 @@ void			move_left_right(t_game *game, int dir);
 
 // raycasting.c
 void			raycast_and_render(t_game *game, mlx_image_t *img);
-void			draw_vertical_line(mlx_image_t *img, int x, int start, int end,
-					uint32_t color);
+void			draw_vertical_line(mlx_image_t *img, int x, int start, int end);
 void			game_loop(void *param);
 
 // init.c

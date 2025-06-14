@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/13 21:06:27 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:03:23 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,29 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		rotate_player(game, ROT_SPEED * 180.0 / M_PI);
 }
 
-// PLEASE FIX TERNARIES
 void	print_parsed_data(t_game *game)
 {
 	printf("\n=== STORED DATA VERIFICATION ===\n");
-	printf("North texture: %s\n",
-		game->textures.north ? game->textures.north : "NULL");
-	printf("South texture: %s\n",
-		game->textures.south ? game->textures.south : "NULL");
-	printf("West texture: %s\n",
-		game->textures.west ? game->textures.west : "NULL");
-	printf("East texture: %s\n",
-		game->textures.east ? game->textures.east : "NULL");
-	printf("Floor color: RGB(%d, %d, %d)\n", game->colors.floor_r,
-		game->colors.floor_g, game->colors.floor_b);
-	printf("Ceiling color: RGB(%d, %d, %d)\n", game->colors.ceiling_r,
-		game->colors.ceiling_g, game->colors.ceiling_b);
+	if (game->textures.north)
+		printf("North texture: %s\n", game->textures.north);
+	else
+		printf("North texture: NULL\n");
+	if (game->textures.south)
+		printf("South texture: %s\n", game->textures.south);
+	else
+		printf("South texture: NULL\n");
+	if (game->textures.west)
+		printf("West texture: %s\n", game->textures.west);
+	else
+		printf("West texture: NULL\n");
+	if (game->textures.east)
+		printf("East texture: %s\n", game->textures.east);
+	else
+		printf("East texture: NULL\n");
+	printf("Floor color: RGB(%d, %d, %d)\n", game->colors.f_r, game->colors.f_g,
+		game->colors.f_b);
+	printf("Ceiling color: RGB(%d, %d, %d)\n", game->colors.c_r,
+		game->colors.c_g, game->colors.c_b);
 	printf("=== END VERIFICATION ===\n\n");
 }
 
@@ -71,8 +78,7 @@ int	main(int argc, char **argv)
 		printf("Usage: %s <map.cub>\n", argv[0]);
 		return (1);
 	}
-	// Initialize game structure
-	memset(&game, 0, sizeof(t_game));
+	memset(&game, 0, sizeof(t_game)); // I feel like we're doing this twice
 	game.textures.north = NULL;
 	game.textures.south = NULL;
 	game.textures.west = NULL;
@@ -83,7 +89,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_parsed_data(&game);
-	// Set map_height for later use
 	game.map_height = 0;
 	while (game.map && game.map[game.map_height])
 		game.map_height++;
@@ -93,7 +98,6 @@ int	main(int argc, char **argv)
 		printf("Error: MLX init failed\n");
 		return (1);
 	}
-	// Initialize image
 	game.img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!game.img)
 	{
@@ -107,7 +111,7 @@ int	main(int argc, char **argv)
 	printf("SUCCESS! Use WASD to move, arrows to turn, ESC to quit.\n");
 	printf("Starting position: (%.1f, %.1f) angle: %.1f\n", game.player.x,
 		game.player.y, game.player.angle);
-	mlx_loop_hook(game.mlx, game_loop, &game); // Set the game loop function
+	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
 	cleanup_game(&game);
 	return (0);
