@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Libraries
-MLX = MLX42/lib/libmlx42.a
+MLX = MLX42/build/libmlx42.a
 LIBFT = libft/libft.a
 
 # Sources
@@ -56,6 +56,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(LIBFT):
 	@echo "$(MAGENTA)🔨 Building libft...$(RESET)"
 	@make -C libft --quiet
+
+$(MLX):
+	@echo "$(MAGENTA)🔨 Building MLX42...$(RESET)"
+	@cmake -S MLX42 -B MLX42/build
+	@cmake --build MLX42/build
 
 clean:
 	@echo "$(RED)🧹 Cleaning object files...$(RESET)"
