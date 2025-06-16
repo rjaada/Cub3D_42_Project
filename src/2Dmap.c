@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2Dmap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/14 18:01:53 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:49:04 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ static void	clear_minimap_bg(t_game *game)
 	{
 		x_img = 0;
 		while (x_img < game->img->width)
-		{
-			mlx_put_pixel(game->img, x_img, y_img,
+			mlx_put_pixel(game->img, x_img++, y_img,
 				get_ceiling_color(&game->colors));
-			x_img++;
-		}
 		y_img++;
 	}
 	y_img = game->img->height / 2;
@@ -34,11 +31,8 @@ static void	clear_minimap_bg(t_game *game)
 	{
 		x_img = 0;
 		while (x_img < game->img->width)
-		{
-			mlx_put_pixel(game->img, x_img, y_img,
+			mlx_put_pixel(game->img, x_img++, y_img,
 				get_floor_color(&game->colors));
-			x_img++;
-		}
 		y_img++;
 	}
 }

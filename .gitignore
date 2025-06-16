@@ -53,3 +53,8 @@ dkms.conf
 
 .vscode/
 .idea/
+memory_leak_test.txt
+libraries/libft/libft.a
+.gitignore
+cub3D
+
