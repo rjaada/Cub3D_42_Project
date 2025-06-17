@@ -6,11 +6,29 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:44:47 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/16 00:44:55 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/17 23:46:05 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	get_max_line_width(t_game *game)
+{
+	int	max_width;
+	int	i;
+	int	current_width;
+
+	max_width = 0;
+	i = 0;
+	while (game->map[i])
+	{
+		current_width = ft_strlen(game->map[i]);
+		if (current_width > max_width)
+			max_width = current_width;
+		i++;
+	}
+	return (max_width);
+}
 
 static int	check_top_wall(t_game *game, int map_width)
 {

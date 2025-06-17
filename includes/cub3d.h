@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/16 02:33:00 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/17 23:41:32 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,16 @@ typedef struct s_texture_data
 	int				tex_x;
 }					t_texture_data;
 
+typedef struct s_seen_keys
+{
+	int				has_north;
+	int				has_south;
+	int				has_west;
+	int				has_east;
+	int				has_floor;
+	int				has_ceiling;
+}					t_seen_keys;
+
 /* ************************************************************************** */
 /*                                FUNCTIONS                                   */
 /* ************************************************************************** */
@@ -147,6 +157,7 @@ int					parse_map_section(char *buffer, int map_start,
 						int total_size, t_game *game);
 int					parse_cub_file(char *filename, t_game *game);
 int					find_player_position(t_game *game);
+int					get_max_line_width(t_game *game);
 int					validate_top_bottom_walls(t_game *game, int map_height,
 						int map_width);
 int					validate_left_right_walls(t_game *game, int map_height);
@@ -154,6 +165,8 @@ int					validate_map_characters(t_game *game, int map_height);
 int					validate_map_walls(t_game *game);
 int					check_file_extension(char *filename);
 int					parse_and_validate_cub_file(char *filename, t_game *game);
+int					parse_texture_no_so(char *line, t_textures *textures);
+int					parse_texture_we_ea(char *line, t_textures *textures);
 
 // colors.c
 void				parse_rgb_color(char *color_str, int *r, int *g, int *b);
@@ -187,5 +200,18 @@ void				cleanup_game(t_game *game);
 void				cleanup_map(t_game *game);
 void				cleanup_mlx_textures(t_game *game);
 void				cleanup_texture_paths(t_game *game);
+
+// error_handler.c
+int					error_duplicate_key(char *key);
+int					error_missing_element(char *element);
+int					error_color_range(void);
+int					error_unknown_identifier(char *line);
+int					error_invalid_line(char *line);
+
+// config_validation.c
+int					validate_color_range(int r, int g, int b);
+int					is_valid_config_line(char *line);
+int					check_duplicate_key(char *line);
+int					validate_all_required_elements(void);
 
 #endif

@@ -21,6 +21,7 @@ LIBFT = libft/libft.a
 # Sources
 SRCDIR = src
 SRCS = $(SRCDIR)/main.c $(SRCDIR)/file_parsing.c $(SRCDIR)/texture_parsing.c \
+		$(SRCDIR)/color_parsing.c $(SRCDIR)/config_validation.c $(SRCDIR)/error_handler.c \
 		$(SRCDIR)/map_parsing.c $(SRCDIR)/player_parsing.c $(SRCDIR)/map_validation.c \
 		$(SRCDIR)/wall_validation.c $(SRCDIR)/2Dmap.c $(SRCDIR)/movements.c \
 		$(SRCDIR)/colors.c $(SRCDIR)/init.c $(SRCDIR)/raycasting.c \
