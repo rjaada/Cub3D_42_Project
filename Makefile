@@ -32,20 +32,26 @@ OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 TOTAL_FILES = $(words $(SRCS))
 CURRENT_FILE = 0
 
-all: header $(NAME) footer
+all: $(NAME)
 
-header:
+$(NAME): $(MLX) $(LIBFT) $(OBJS)
 	@echo "$(CYAN)$(BOLD)"
 	@echo "╔═══════════════════════════════════════════════════════════════╗"
 	@echo "║                        🎮 CUB3D 🎮                            ║"
 	@echo "║                    Building 3D Engine...                      ║"
 	@echo "╚═══════════════════════════════════════════════════════════════╝"
 	@echo "$(RESET)"
-
-$(NAME): $(MLX) $(LIBFT) $(OBJS)
 	@echo "$(GREEN)$(BOLD)🔗 Linking $(NAME)...$(RESET)"
 	@$(CC) $(OBJS) $(MLX) -lglfw -lm -o $(NAME) $(LIBFT)
 	@echo "$(GREEN)$(BOLD)✅ $(NAME) built successfully!$(RESET)"
+	@echo "$(CYAN)$(BOLD)"
+	@echo "╔═══════════════════════════════════════════════════════════════╗"
+	@echo "║                     🚀 BUILD COMPLETE! 🚀                     ║"
+	@echo "║                  Ready to render some 3D! 🎮                  ║"
+	@echo "║                                                               ║"
+	@echo "║                Usage: ./$(NAME) maps/test.cub                   ║"
+	@echo "╚═══════════════════════════════════════════════════════════════╝"
+	@echo "$(RESET)"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
@@ -79,19 +85,9 @@ fclean: clean
 
 re: fclean all
 
-footer:
-	@echo "$(CYAN)$(BOLD)"
-	@echo "╔═══════════════════════════════════════════════════════════════╗"
-	@echo "║                     🚀 BUILD COMPLETE! 🚀                     ║"
-	@echo "║                  Ready to render some 3D! 🎮                  ║"
-	@echo "║                                                               ║"
-	@echo "║                Usage: ./$(NAME) maps/test.cub                   ║"
-	@echo "╚═══════════════════════════════════════════════════════════════╝"
-	@echo "$(RESET)"
-
 bonus: $(NAME)
 
-.PHONY: all clean fclean re bonus header footer
+.PHONY: all clean fclean re bonus
 
 # Progress indicator
-.SILENT: $(OBJS) header footer
+.SILENT: $(OBJS)
