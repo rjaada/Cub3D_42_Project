@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   2Dmap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/15 23:49:04 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 22:13:03 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	clear_minimap_bg(t_game *game)
+void	clear_minimap_bg(t_game *game)
 {
 	uint32_t	y_img;
 	uint32_t	x_img;
@@ -53,9 +53,9 @@ static void	draw_minimap_cell(t_game *game, int map_x, int map_y,
 		{
 			draw_x = MAP_OFFSET_X + map_x * TILE_SIZE / 2 + i;
 			draw_y = MAP_OFFSET_Y + map_y * TILE_SIZE / 2 + j;
-			if (draw_x >= 0 && draw_x < (int)game->img->width && draw_y >= 0
-				&& draw_y < (int)game->img->height)
-				mlx_put_pixel(game->img, draw_x, draw_y, color);
+			if (draw_x >= 0 && draw_x < (int)game->minimap->width && draw_y >= 0
+				&& draw_y < (int)game->minimap->height)
+				mlx_put_pixel(game->minimap, draw_x, draw_y, color);
 			j++;
 		}
 		i++;
@@ -75,9 +75,9 @@ static void	draw_minimap_map(t_game *game, int map_width, int map_height)
 		while (x < map_width)
 		{
 			if (game->map[y][x] == '1')
-				color = 0xFF444444;
+				color = 0xFF4444FF;
 			else
-				color = 0xFFCCCCCC;
+				color = 0xFFCCCCFF;
 			draw_minimap_cell(game, x, y, color);
 			x++;
 		}
@@ -100,9 +100,9 @@ static void	draw_minimap_player(t_game *game)
 		j = 0;
 		while (j < TILE_SIZE / 3)
 		{
-			if (px + i >= 0 && px + i < (int)game->img->width && py + j >= 0
-				&& py + j < (int)game->img->height)
-				mlx_put_pixel(game->img, px + i, py + j, 0xFFFF0000);
+			if (px + i >= 0 && px + i < (int)game->minimap->width && py + j >= 0
+				&& py + j < (int)game->minimap->height)
+				mlx_put_pixel(game->minimap, px + i, py + j, 0xFFFF00FF);
 			j++;
 		}
 		i++;
@@ -111,21 +111,15 @@ static void	draw_minimap_player(t_game *game)
 
 void	draw_minimap(t_game *game)
 {
-	int	map_width;
-	int	map_height;
-
-	map_height = 0;
-	while (game->map[map_height])
-		map_height++;
-	map_width = strlen(game->map[0]);
-	if (!game->img)
+	game->map_width = strlen(game->map[0]);
+	if (!game->minimap)
 	{
-		game->img = mlx_new_image(game->mlx, map_width * TILE_SIZE + 2
-				* MAP_OFFSET_X / 2, map_height * TILE_SIZE + 2 * MAP_OFFSET_Y
+		game->minimap = mlx_new_image(game->mlx, game->map_width * TILE_SIZE + 2
+				* MAP_OFFSET_X / 2, game->map_height * TILE_SIZE + 2 * MAP_OFFSET_Y
 				/ 2);
-		mlx_image_to_window(game->mlx, game->img, 0, 0);
+		mlx_image_to_window(game->mlx, game->minimap, 0, 0);
 	}
-	clear_minimap_bg(game);
-	draw_minimap_map(game, map_width, map_height);
+	//clear_minimap_bg(game);
+	draw_minimap_map(game, game->map_width, game->map_height);
 	draw_minimap_player(game);
 }

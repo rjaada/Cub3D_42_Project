@@ -3,19 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:16:49 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/16 01:58:49 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 22:44:24 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static int	is_walkable(char **map, int x, int y)
+static int	is_walkable(char **map, double x, double y)
 {
-	return (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
-		|| map[y][x] == 'E' || map[y][x] == 'W');
+	int	ix = (int)(x);
+	int	iy = (int)(y);
+
+	if (ix < 0 || iy < 0)
+		return (0);
+	if (!map[iy] || !map[iy][ix])
+		return (0);
+	return (map[iy][ix] == '0');
 }
 
 void	rotate_player(t_game *game, double angle)
@@ -36,10 +42,14 @@ void	move_forward_backward(t_game *game, int dir)
 		* dir;
 	new_y = game->player.y + sin(game->player.angle * M_PI / 180.0) * MOVE_SPEED
 		* dir;
-	if (is_walkable(game->map, (int)new_x, (int)game->player.y))
+	if (is_walkable(game->map, new_x + COLLISION_RADIUS, game->player.y) &&
+		is_walkable(game->map, new_x - COLLISION_RADIUS, game->player.y))
 		game->player.x = new_x;
-	if (is_walkable(game->map, (int)game->player.x, (int)new_y))
+
+	if (is_walkable(game->map, game->player.x, new_y + COLLISION_RADIUS) &&
+		is_walkable(game->map, game->player.x, new_y - COLLISION_RADIUS))
 		game->player.y = new_y;
+
 }
 
 void	move_left_right(t_game *game, int dir)
@@ -51,9 +61,12 @@ void	move_left_right(t_game *game, int dir)
 	perp_angle = game->player.angle + (dir * 90.0);
 	new_x = game->player.x + cos(perp_angle * M_PI / 180.0) * MOVE_SPEED;
 	new_y = game->player.y + sin(perp_angle * M_PI / 180.0) * MOVE_SPEED;
-	if (is_walkable(game->map, (int)new_x, (int)game->player.y))
+	if (is_walkable(game->map, new_x + COLLISION_RADIUS, game->player.y) &&
+		is_walkable(game->map, new_x - COLLISION_RADIUS, game->player.y))
 		game->player.x = new_x;
-	if (is_walkable(game->map, (int)game->player.x, (int)new_y))
+
+	if (is_walkable(game->map, game->player.x, new_y + COLLISION_RADIUS) &&
+		is_walkable(game->map, game->player.x, new_y - COLLISION_RADIUS))
 		game->player.y = new_y;
 }
 

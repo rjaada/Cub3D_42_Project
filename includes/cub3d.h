@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:41:32 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 22:30:41 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define FOV 60.0
 # define NUM_RAYS WIN_WIDTH
 # define M_PI 3.14159265358979323846
+# define COLLISION_RADIUS 0.5
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/libft.h"
@@ -63,11 +64,13 @@ typedef struct s_game
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*minimap;
 	mlx_texture_t	*north_texture;
 	mlx_texture_t	*south_texture;
 	mlx_texture_t	*east_texture;
 	mlx_texture_t	*west_texture;
 	int				map_height;
+	int				map_width;
 	int				map_start;
 	int				total_size;
 	int				line_count;
