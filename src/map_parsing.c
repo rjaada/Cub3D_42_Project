@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:24:12 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/16 00:56:02 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:59:32 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int	process_map_line(char *buffer, int line_start, int i, t_game *game)
 	game->map[game->current_line] = copy_map_line(buffer, line_start, i);
 	if (!game->map[game->current_line])
 		return (0);
-	printf("Map line %d: '%s'\n", game->current_line,
-		game->map[game->current_line]);
 	game->current_line++;
 	return (1);
 }
@@ -83,15 +81,12 @@ static int	parse_map_lines(char *buffer, int map_start, t_game *game)
 
 int	parse_map_section(char *buffer, int map_start, int total_size, t_game *game)
 {
-	printf("\n=== MAP PARSING ===\n");
 	game->total_size = total_size;
 	game->line_count = count_map_lines(buffer, map_start, total_size);
-	printf("Found %d map lines\n", game->line_count);
 	game->map = malloc(sizeof(char *) * (game->line_count + 1));
 	if (!game->map)
 		return (0);
 	if (!parse_map_lines(buffer, map_start, game))
 		return (0);
-	printf("=== MAP PARSING COMPLETE ===\n");
 	return (1);
 }

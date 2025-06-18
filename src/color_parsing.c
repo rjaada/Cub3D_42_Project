@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:02:49 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/18 23:21:05 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:58:36 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	parse_floor_color(char *line, t_colors *colors)
 	int	g;
 	int	b;
 
-	printf("Found Floor color: %s\n", line + 2);
 	parse_rgb_color(line + 2, &r, &g, &b);
 	if (!validate_color_range(r, g, b))
 		return (0);
@@ -34,7 +33,6 @@ static int	parse_ceiling_color(char *line, t_colors *colors)
 	int	g;
 	int	b;
 
-	printf("Found Ceiling color: %s\n", line + 2);
 	parse_rgb_color(line + 2, &r, &g, &b);
 	if (!validate_color_range(r, g, b))
 		return (0);

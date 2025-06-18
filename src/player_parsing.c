@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:44:23 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/16 00:44:30 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 01:00:00 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ static int	process_player_cell(t_game *game, int row, int col)
 	game->player.x = col + 0.5;
 	game->player.y = row + 0.5;
 	set_player_angle(game, direction);
-	printf("Player found at map[%d][%d] = '%c'\n", row, col, direction);
-	printf("Player coordinates: (%.1f, %.1f) angle: %.1f\n", game->player.x,
-		game->player.y, game->player.angle);
 	game->map[row][col] = '0';
 	return (1);
 }
@@ -45,7 +42,6 @@ int	find_player_position(t_game *game)
 	int	col;
 
 	row = 0;
-	printf("\n=== FINDING PLAYER POSITION ===\n");
 	while (game->map[row])
 	{
 		col = 0;
@@ -55,7 +51,6 @@ int	find_player_position(t_game *game)
 				|| game->map[row][col] == 'E' || game->map[row][col] == 'W')
 			{
 				process_player_cell(game, row, col);
-				printf("=== PLAYER POSITION SET ===\n");
 				return (1);
 			}
 			col++;

@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:20:17 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/18 23:59:33 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:58:49 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	process_file_content(char *buffer, int bytes_read, t_game *game)
 	i = 0;
 	line_start = 0;
 	game->map_start = -1;
-	printf("\n=== PARSING TEXTURES & COLORS ===\n");
 	while (i < bytes_read)
 	{
 		if (buffer[i] == '\n' || i == bytes_read - 1)
@@ -74,6 +73,5 @@ int	parse_cub_file(char *filename, t_game *game)
 	bytes_read = read(fd, buffer, 4095);
 	buffer[bytes_read] = '\0';
 	close(fd);
-	printf("=== FILE CONTENT ===\n%s=== END FILE ===\n", buffer);
 	return (process_file_content(buffer, bytes_read, game));
 }
