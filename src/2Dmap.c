@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2Dmap.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/18 22:13:03 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/18 23:37:39 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,17 @@ static void	draw_minimap_player(t_game *game)
 	}
 }
 
+//clear_minimap_bg(game); i move it above for norminette
 void	draw_minimap(t_game *game)
 {
 	game->map_width = strlen(game->map[0]);
 	if (!game->minimap)
 	{
 		game->minimap = mlx_new_image(game->mlx, game->map_width * TILE_SIZE + 2
-				* MAP_OFFSET_X / 2, game->map_height * TILE_SIZE + 2 * MAP_OFFSET_Y
-				/ 2);
+				* MAP_OFFSET_X / 2, game->map_height * TILE_SIZE + 2
+				* MAP_OFFSET_Y / 2);
 		mlx_image_to_window(game->mlx, game->minimap, 0, 0);
 	}
-	//clear_minimap_bg(game);
 	draw_minimap_map(game, game->map_width, game->map_height);
 	draw_minimap_player(game);
 }

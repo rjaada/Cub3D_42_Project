@@ -6,33 +6,11 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:20:17 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:11:16 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:59:33 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-static int	is_texture_or_color_line(char c, char c2)
-{
-	return ((c == 'N' && c2 == 'O') || (c == 'S' && c2 == 'O') || (c == 'W'
-			&& c2 == 'E') || (c == 'E' && c2 == 'A') || (c == 'F' && c2 == ' ')
-		|| (c == 'C' && c2 == ' '));
-}
-
-static int	is_map_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static void	process_line(char *buffer, int line_start, int i, t_game *game)
 {
@@ -49,11 +27,7 @@ static void	process_line(char *buffer, int line_start, int i, t_game *game)
 	{
 		if (is_texture_or_color_line(buffer[line_start], buffer[line_start
 					+ 1]))
-		{
-			if (!parse_texture_line(&buffer[line_start], &game->textures,
-					&game->colors))
-				exit(1);
-		}
+			handle_texture_line(&buffer[line_start], game, game->seen);
 		else if (is_map_line(&buffer[line_start]))
 			game->map_start = line_start;
 		else if (buffer[line_start] != ' ')
@@ -67,6 +41,7 @@ static int	process_file_content(char *buffer, int bytes_read, t_game *game)
 	int	i;
 	int	line_start;
 
+	init_seen_keys(game->seen);
 	i = 0;
 	line_start = 0;
 	game->map_start = -1;
@@ -80,7 +55,7 @@ static int	process_file_content(char *buffer, int bytes_read, t_game *game)
 		}
 		i++;
 	}
-	if (!validate_all_required_elements())
+	if (!validate_all_required_elements(game->seen))
 		return (0);
 	if (game->map_start == -1)
 		return (printf("Error\nNo map found in file\n"), 0);
@@ -90,13 +65,13 @@ static int	process_file_content(char *buffer, int bytes_read, t_game *game)
 int	parse_cub_file(char *filename, t_game *game)
 {
 	int		fd;
-	char	buffer[1000];
+	char	buffer[4096];
 	int		bytes_read;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (printf("Error\nCannot open file %s\n", filename), 0);
-	bytes_read = read(fd, buffer, 999);
+	bytes_read = read(fd, buffer, 4095);
 	buffer[bytes_read] = '\0';
 	close(fd);
 	printf("=== FILE CONTENT ===\n%s=== END FILE ===\n", buffer);

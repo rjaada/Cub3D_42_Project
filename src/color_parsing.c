@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:02:49 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:10:45 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:21:05 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ static int	parse_colors(char *line, t_colors *colors)
 	return (-1);
 }
 
-int	parse_texture_line(char *line, t_textures *textures, t_colors *colors)
+int	parse_texture_line(char *line, t_textures *textures, t_colors *colors,
+		t_seen_keys *seen)
 {
 	int	result;
 
-	if (!is_valid_config_line(line) || !check_duplicate_key(line))
+	if (!is_valid_config_line(line) || !check_duplicate_key(line, seen))
 		return (0);
 	result = parse_texture_no_so(line, textures);
 	if (result != -1)

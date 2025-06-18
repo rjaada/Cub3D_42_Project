@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:44:47 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:46:05 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:13:38 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,19 @@ int	get_max_line_width(t_game *game)
 	return (max_width);
 }
 
-static int	check_top_wall(t_game *game, int map_width)
-{
-	int	col;
-
-	col = 0;
-	while (col < map_width)
-	{
-		if (game->map[0][col] != '1')
-		{
-			printf("Error\nMap not closed - top wall missing at position %d\n",
-				col);
-			return (0);
-		}
-		col++;
-	}
-	return (1);
-}
-
-static int	check_bottom_wall(t_game *game, int map_height, int map_width)
-{
-	int	col;
-
-	col = 0;
-	while (col < map_width)
-	{
-		if (game->map[map_height - 1][col] != '1')
-		{
-			printf("Error\nMap not closed - bottom wall missing at pos %d\n",
-				col);
-			return (0);
-		}
-		col++;
-	}
-	return (1);
-}
-
 int	validate_top_bottom_walls(t_game *game, int map_height, int map_width)
 {
-	if (!check_top_wall(game, map_width))
+	int	start;
+	int	end;
+
+	(void)map_width;
+	start = find_content_start(game->map[0]);
+	end = find_content_end(game->map[0]);
+	if (!check_horizontal_wall(game->map[0], start, end, "top"))
 		return (0);
-	if (!check_bottom_wall(game, map_height, map_width))
+	start = find_content_start(game->map[map_height - 1]);
+	end = find_content_end(game->map[map_height - 1]);
+	if (!check_horizontal_wall(game->map[map_height - 1], start, end, "bottom"))
 		return (0);
 	return (1);
 }
@@ -78,23 +50,18 @@ int	validate_top_bottom_walls(t_game *game, int map_height, int map_width)
 int	validate_left_right_walls(t_game *game, int map_height)
 {
 	int	row;
-	int	line_len;
+	int	start;
+	int	end;
 
 	row = 0;
 	while (row < map_height)
 	{
-		if (game->map[row][0] != '1')
+		if (ft_strlen(game->map[row]) > 0)
 		{
-			printf("Error\nMap not closed - left wall missing at row %d\n",
-				row);
-			return (0);
-		}
-		line_len = ft_strlen(game->map[row]);
-		if (line_len > 0 && game->map[row][line_len - 1] != '1')
-		{
-			printf("Error\nMap not closed - right wall missing at row %d\n",
-				row);
-			return (0);
+			start = find_content_start(game->map[row]);
+			end = find_content_end(game->map[row]);
+			if (!check_wall_boundary(game->map[row], start, end, row))
+				return (0);
 		}
 		row++;
 	}

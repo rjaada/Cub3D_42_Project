@@ -6,13 +6,11 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 22:59:06 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:01:29 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:20:06 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-static t_seen_keys	g_seen = {0, 0, 0, 0, 0, 0};
 
 int	validate_color_range(int r, int g, int b)
 {
@@ -23,8 +21,7 @@ int	validate_color_range(int r, int g, int b)
 
 int	is_valid_config_line(char *line)
 {
-	if ((line[0] == 'N' && line[1] == 'O') || (line[0] == 'S'
-			&& line[1] == 'O')
+	if ((line[0] == 'N' && line[1] == 'O') || (line[0] == 'S' && line[1] == 'O')
 		|| (line[0] == 'W' && line[1] == 'E') || (line[0] == 'E'
 			&& line[1] == 'A') || (line[0] == 'F' && line[1] == ' ')
 		|| (line[0] == 'C' && line[1] == ' '))
@@ -34,36 +31,36 @@ int	is_valid_config_line(char *line)
 	return (error_unknown_identifier(line));
 }
 
-int	check_duplicate_key(char *line)
+int	check_duplicate_key(char *line, t_seen_keys *seen)
 {
-	if (line[0] == 'N' && line[1] == 'O' && g_seen.has_north++)
+	if (line[0] == 'N' && line[1] == 'O' && seen->has_north++)
 		return (error_duplicate_key("NO"));
-	if (line[0] == 'S' && line[1] == 'O' && g_seen.has_south++)
+	if (line[0] == 'S' && line[1] == 'O' && seen->has_south++)
 		return (error_duplicate_key("SO"));
-	if (line[0] == 'W' && line[1] == 'E' && g_seen.has_west++)
+	if (line[0] == 'W' && line[1] == 'E' && seen->has_west++)
 		return (error_duplicate_key("WE"));
-	if (line[0] == 'E' && line[1] == 'A' && g_seen.has_east++)
+	if (line[0] == 'E' && line[1] == 'A' && seen->has_east++)
 		return (error_duplicate_key("EA"));
-	if (line[0] == 'F' && line[1] == ' ' && g_seen.has_floor++)
+	if (line[0] == 'F' && line[1] == ' ' && seen->has_floor++)
 		return (error_duplicate_key("F"));
-	if (line[0] == 'C' && line[1] == ' ' && g_seen.has_ceiling++)
+	if (line[0] == 'C' && line[1] == ' ' && seen->has_ceiling++)
 		return (error_duplicate_key("C"));
 	return (1);
 }
 
-int	validate_all_required_elements(void)
+int	validate_all_required_elements(t_seen_keys *seen)
 {
-	if (!g_seen.has_north)
+	if (!seen->has_north)
 		return (error_missing_element("NO"));
-	if (!g_seen.has_south)
+	if (!seen->has_south)
 		return (error_missing_element("SO"));
-	if (!g_seen.has_west)
+	if (!seen->has_west)
 		return (error_missing_element("WE"));
-	if (!g_seen.has_east)
+	if (!seen->has_east)
 		return (error_missing_element("EA"));
-	if (!g_seen.has_floor)
+	if (!seen->has_floor)
 		return (error_missing_element("F"));
-	if (!g_seen.has_ceiling)
+	if (!seen->has_ceiling)
 		return (error_missing_element("C"));
 	return (1);
 }

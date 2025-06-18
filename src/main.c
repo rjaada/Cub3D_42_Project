@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/16 00:13:42 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:33:35 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	init_mlx_and_start(t_game *game)
 
 int	main(int argc, char **argv)
 {
-	t_game	game;
+	t_game		game;
+	t_seen_keys	seen;
 
 	if (argc != 2)
 		return (printf("Usage: %s <map.cub>\n", argv[0]), 1);
 	memset(&game, 0, sizeof(t_game));
+	game.seen = &seen;
 	game.textures.north = NULL;
 	game.textures.south = NULL;
 	game.textures.west = NULL;
