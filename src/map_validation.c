@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:22:57 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/17 23:40:00 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:21:31 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,18 @@
 
 int	validate_map_characters(t_game *game, int map_height)
 {
-	int		row;
-	int		col;
-	char	c;
+	int	row;
 
 	row = 0;
 	while (row < map_height)
 	{
-		col = 0;
-		while (game->map[row][col])
+		if (!game->map[row])
 		{
-			c = game->map[row][col];
-			if (c != '0' && c != '1' && c != ' ' && c != 'N' && c != 'S'
-				&& c != 'E' && c != 'W')
-			{
-				printf("Error\nInvalid character '%c' in map at [%d][%d]\n", c,
-					row, col);
-				return (0);
-			}
-			col++;
+			row++;
+			continue ;
 		}
+		if (!validate_row_characters(game->map[row], row))
+			return (0);
 		row++;
 	}
 	return (1);

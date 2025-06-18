@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/18 23:35:01 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:21:54 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ typedef struct s_texture_data
 	int				tex_x;
 }					t_texture_data;
 
-
 /* ************************************************************************** */
 /*                                FUNCTIONS                                   */
 /* ************************************************************************** */
@@ -229,5 +228,8 @@ int					validate_color_range(int r, int g, int b);
 int					is_valid_config_line(char *line);
 int					check_duplicate_key(char *line, t_seen_keys *seen);
 int					validate_all_required_elements(t_seen_keys *seen);
+int					is_valid_map_character(char c);
+int					validate_character_at_position(char c, int row, int col);
+int					validate_row_characters(char *row_data, int row_index);
 
 #endif

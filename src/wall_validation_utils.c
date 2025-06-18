@@ -6,7 +6,7 @@
 /*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:10:21 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/18 23:57:00 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:18:56 by rjaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,35 @@
 int	find_content_start(char *line)
 {
 	int	start;
+	int	len;
 
-	start = 0;
-	while (start < (int)ft_strlen(line) && line[start] == ' ')
-		start++;
-	if (start >= (int)ft_strlen(line))
+	if (!line)
 		return (-1);
-	return (start);
+	len = ft_strlen(line);
+	start = 0;
+	while (start < len)
+	{
+		if (line[start] != ' ' && line[start] != '\t')
+			return (start);
+		start++;
+	}
+	return (-1);
 }
 
 int	find_content_end(char *line)
 {
 	int	end;
 
+	if (!line)
+		return (-1);
 	end = ft_strlen(line) - 1;
-	while (end >= 0 && (line[end] == ' ' || line[end] == '\0'))
+	while (end >= 0)
+	{
+		if (line[end] != ' ' && line[end] != '\t' && line[end] != '\0')
+			return (end);
 		end--;
-	return (end);
+	}
+	return (-1);
 }
 
 int	check_wall_boundary(char *line, int start, int end, int row)
@@ -55,9 +67,14 @@ int	check_horizontal_wall(char *line, int start, int end, char *wall_type)
 {
 	if (start == -1 || end == -1 || start > end)
 		return (1);
-	if (line[start] != '1' || line[end] != '1')
+	if (line[start] != '1')
 	{
-		printf("Error\nMap not closed - %s boundary not walled\n", wall_type);
+		printf("Error\nMap not closed - %s start not walled\n", wall_type);
+		return (0);
+	}
+	if (line[end] != '1')
+	{
+		printf("Error\nMap not closed - %s end not walled\n", wall_type);
 		return (0);
 	}
 	return (1);
