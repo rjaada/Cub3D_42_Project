@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/19 12:23:12 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:39:26 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define NUM_RAYS WIN_WIDTH
 # define M_PI 3.14159265358979323846
 # define COLLISION_RADIUS 0.5
+# define MINIMAP_WIDTH 200
+# define MINIMAP_HEIGHT 200
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/libft.h"
