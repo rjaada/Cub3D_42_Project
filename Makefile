@@ -50,7 +50,7 @@ $(NAME): $(MLX) $(LIBFT) $(OBJS)
 	@echo "║                     🚀 BUILD COMPLETE! 🚀                     ║"
 	@echo "║                  Ready to render some 3D! 🎮                  ║"
 	@echo "║                                                               ║"
-	@echo "║                Usage: ./$(NAME) maps/test.cub                   ║"
+	@echo "║                Usage: ./$(NAME) maps/val1.cub                   ║"
 	@echo "╚═══════════════════════════════════════════════════════════════╝"
 	@echo "$(RESET)"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/19 00:59:15 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 11:34:35 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,24 @@ int	init_mlx_and_start(t_game *game)
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
 	mlx_close_hook(game->mlx, close_window, game);
 	mlx_key_hook(game->mlx, key_hook, game);
+	mlx_cursor_hook(game->mlx, cursor_hook, game);
 	printf("SUCCESS! Use WASD to move, arrows to turn, ESC to quit.\n");
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (1);
+}
+
+void	cursor_hook(double xpos, double ypos, void *param)
+{
+	t_game	*data;
+
+	(void)ypos;
+	data = (t_game *)param;
+	mlx_set_mouse_pos(data->mlx, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	if (xpos > WIN_WIDTH / 2)
+		data->player.angle += 1;
+	else if (xpos < WIN_WIDTH / 2)
+		data->player.angle -= 1;
 }
 
 int	main(int argc, char **argv)

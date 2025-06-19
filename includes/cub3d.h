@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/19 00:21:54 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 11:25:11 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1800
+# define WIN_HEIGHT 1350
 # define MOVE_SPEED 0.03
 # define ROT_SPEED 0.02
 # define TILE_SIZE 32
@@ -148,7 +148,7 @@ typedef struct s_texture_data
 // main.c
 void				close_window(void *param);
 void				key_hook(mlx_key_data_t keydata, void *param);
-void				print_parsed_data(t_game *game);
+void				cursor_hook(double xpos, double ypos, void *param);
 void				handle_movement(t_game *game);
 
 // parsing.c
