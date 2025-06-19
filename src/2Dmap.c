@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:42 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/19 12:35:09 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:12:21 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,72 +42,75 @@ static void	draw_minimap_cell(t_game *game, int local_x, int local_y,
 {
 	int	draw_x;
 	int	draw_y;
+	int	i;
+	int	j;
 
-	for (int i = 0; i < TILE_SIZE / 2; i++)
+	i = 0;
+	while (i < TILE_SIZE / 2)
 	{
-		for (int j = 0; j < TILE_SIZE / 2; j++)
+		j = 0;
+		while (j < TILE_SIZE / 2)
 		{
 			draw_x = local_x * TILE_SIZE / 2 + i;
 			draw_y = local_y * TILE_SIZE / 2 + j;
 			if (draw_x >= 0 && draw_x < MINIMAP_WIDTH && draw_y >= 0
 				&& draw_y < MINIMAP_HEIGHT)
 				mlx_put_pixel(game->minimap, draw_x, draw_y, color);
+			j++;
 		}
+		i++;
 	}
 }
 
-static void	draw_minimap_map(t_game *game)
+static void	draw_minimap_map(t_game *game, int y)
 {
-	int			view_tiles_x;
-	int			view_tiles_y;
-	int			player_tile_x;
-	int			player_tile_y;
-	int			start_x;
-	int			start_y;
-	int			map_x;
-	int			map_y;
+	int			i;
+	int			j;
 	uint32_t	color;
+	int			x;
 
-	view_tiles_x = MINIMAP_WIDTH / (TILE_SIZE / 2);
-	view_tiles_y = MINIMAP_HEIGHT / (TILE_SIZE / 2);
-	player_tile_x = (int)game->player.x;
-	player_tile_y = (int)game->player.y;
-	start_x = player_tile_x - view_tiles_x / 2;
-	start_y = player_tile_y - view_tiles_y / 2;
-	for (int y = 0; y < view_tiles_y; y++)
+	while (y < (MINIMAP_HEIGHT / (TILE_SIZE / 2)))
 	{
-		for (int x = 0; x < view_tiles_x; x++)
+		x = 0;
+		while (x < (MINIMAP_WIDTH / (TILE_SIZE / 2)))
 		{
-			map_x = start_x + x;
-			map_y = start_y + y;
-			if (map_y >= 0 && map_y < game->map_height && map_x >= 0
-				&& map_x < game->map_width)
+			i = ((int)game->player.x) - MINIMAP_WIDTH / (TILE_SIZE / 2) / 2 + x;
+			j = ((int)game->player.y) - MINIMAP_HEIGHT / (TILE_SIZE / 2) / 2
+				+ y;
+			if (j >= 0 && j < game->map_height && i >= 0 && i < game->map_width)
 			{
-				color = (game->map[map_y][map_x] == '1') ? 0xFF4444FF : 0xFFCCCCFF;
+				if (game->map[j][i] == '1')
+					color = 0xFF4444FF;
+				else
+					color = 0xFFCCCCFF;
 				draw_minimap_cell(game, x, y, color);
 			}
+			x++;
 		}
+		y++;
 	}
 }
 
 static void	draw_minimap_player(t_game *game)
 {
-	int	center_x;
-	int	center_y;
 	int	px;
 	int	py;
+	int	i;
+	int	j;
 
-	center_x = MINIMAP_WIDTH / 2 - TILE_SIZE / 6;
-	center_y = MINIMAP_HEIGHT / 2 - TILE_SIZE / 6;
-	for (int i = 0; i < TILE_SIZE / 3; i++)
+	i = 0;
+	while (i < TILE_SIZE / 3)
 	{
-		for (int j = 0; j < TILE_SIZE / 3; j++)
+		j = 0;
+		while (j < TILE_SIZE / 3)
 		{
-			px = center_x + i;
-			py = center_y + j;
+			px = (MINIMAP_WIDTH / 2 - TILE_SIZE / 6) + i;
+			py = (MINIMAP_HEIGHT / 2 - TILE_SIZE / 6) + j;
 			if (px >= 0 && px < MINIMAP_WIDTH && py >= 0 && py < MINIMAP_HEIGHT)
 				mlx_put_pixel(game->minimap, px, py, 0xFFFF00FF);
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -120,6 +123,6 @@ void	draw_minimap(t_game *game)
 		mlx_image_to_window(game->mlx, game->minimap, MAP_OFFSET_X,
 			MAP_OFFSET_Y);
 	}
-	draw_minimap_map(game);
+	draw_minimap_map(game, 0);
 	draw_minimap_player(game);
 }

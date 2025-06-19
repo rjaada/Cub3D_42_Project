@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 00:22:57 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/19 00:59:48 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 14:11:42 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,18 @@ int	parse_and_validate_cub_file(char *filename, t_game *game)
 	if (!validate_map_walls(game))
 		return (0);
 	return (1);
+}
+
+int	is_walkable(char ***map, double x, double y)
+{
+	int	ix;
+	int	iy;
+
+	ix = (int)(x);
+	iy = (int)(y);
+	if (ix < 0 || iy < 0)
+		return (0);
+	if (!(*map)[iy] || !(*map)[iy][ix])
+		return (0);
+	return ((*map)[iy][ix] == '0');
 }

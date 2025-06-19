@@ -6,25 +6,11 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:16:49 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/19 12:48:20 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:43:33 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-static int	is_walkable(char ***map, double x, double y)
-{
-	int	ix;
-	int	iy;
-
-	ix = (int)(x);
-	iy = (int)(y);
-	if (ix < 0 || iy < 0)
-		return (0);
-	if (!(*map)[iy] || !(*map)[iy][ix])
-		return (0);
-	return ((*map)[iy][ix] == '0');
-}
 
 static int	can_move_to(char ***map, double x, double y)
 {
