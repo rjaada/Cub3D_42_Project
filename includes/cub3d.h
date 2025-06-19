@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 06:09:40 by rjaada            #+#    #+#             */
-/*   Updated: 2025/06/19 11:25:11 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:23:12 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_game
 	t_textures		textures;
 	t_colors		colors;
 	char			**map;
+	int				mouse_locked;
 }					t_game;
 
 typedef struct s_ray

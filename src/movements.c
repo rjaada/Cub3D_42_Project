@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjaada <rjaada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:16:49 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/18 23:17:00 by rjaada           ###   ########.fr       */
+/*   Updated: 2025/06/19 12:29:11 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,8 @@ void	handle_movement(t_game *game)
 		rotate_player(game, -ROT_SPEED * 180.0 / M_PI);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate_player(game, ROT_SPEED * 180.0 / M_PI);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_M))
+    	game->mouse_locked = !game->mouse_locked;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_N))
+		game->mouse_locked = 0;
 }

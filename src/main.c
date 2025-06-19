@@ -6,7 +6,7 @@
 /*   By: cschnath <cschnath@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:50:34 by cschnath          #+#    #+#             */
-/*   Updated: 2025/06/19 11:34:35 by cschnath         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:23:46 by cschnath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ int	init_mlx_and_start(t_game *game)
 	return (1);
 }
 
-void	cursor_hook(double xpos, double ypos, void *param)
+void cursor_hook(double xpos, double ypos, void *param)
 {
-	t_game	*data;
-
-	(void)ypos;
-	data = (t_game *)param;
-	mlx_set_mouse_pos(data->mlx, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-	if (xpos > WIN_WIDTH / 2)
-		data->player.angle += 1;
-	else if (xpos < WIN_WIDTH / 2)
-		data->player.angle -= 1;
+    (void)ypos;
+	t_game *data = (t_game *)param;
+    if (!data->mouse_locked)
+        return;
+    mlx_set_mouse_pos(data->mlx, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+    if (xpos > WIN_WIDTH / 2)
+        data->player.angle += 1;
+    else if (xpos < WIN_WIDTH / 2)
+        data->player.angle -= 1;
 }
 
 int	main(int argc, char **argv)
