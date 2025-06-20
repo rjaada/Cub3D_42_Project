@@ -70,7 +70,7 @@ src/
 ### Build Instructions
 ```bash
 # Clone the repository
-git clone https://github.com/rjaada/Cub3D_42_Project.git
+git clone --recursive https://github.com/rjaada/Cub3D_42_Project.git
 cd Cub3D_42_Project
 
 # Build the project
