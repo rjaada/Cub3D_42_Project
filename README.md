@@ -12,7 +12,7 @@
 
 ## 👥 Team
 - **Rachid Jaada** ([@rjaada](https://github.com/rjaada))
-- **Charlotte Schnathmeier** ([@char-projects]([https://github.com/cschnath](https://github.com/char-projects)))
+- **Charlotte Schnathmeier** ([@char-projects](https://github.com/char-projects))
 
 ## 📋 Overview
 
